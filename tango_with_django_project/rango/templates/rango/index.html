@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %} Index {% endblock %}
+
+{% block body_block %}
+
+<div class="page-header">
+	{% if user.is_authenticated %}
+		<h1>Rango says Hello there {{ user.username }}!!!</h1>
+	{% else %}
+		<h1>Rango says login or register fool!</h1><br />
+	{% endif %}
+</div>
+
+<div class="row placeholders">
+	<div class="col-xs-12 col-sm-6 placeholder">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h4>Categories</h4>
+			</div>
+		</div>
+		<a href="{% url 'add_category' %}">Add a new Category!</a> <br />
+		{% if categories %}		
+		<ul>
+		{% for category in categories %}
+				<li><a href="{% url 'category' category.slug %}"> {{ category.name }} <strong>[{{ category.likes }}]</strong> </a></li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<strong>No categories Present</strong>
+		{% endif %}
+	</div>
+
+	<div class="col-xs-2 col-sm-6 placeholder">
+	    <div class="panel panel-primary">
+            <div class="panel-heading">
+                    <h3 class="panel-title">Top Viewed Pages</h3>
+            </div>
+    </div>
+		{% if top_viewed_pages %}
+		<ul>
+			{% for top_views in top_viewed_pages %}
+				<li><a href="{{ top_views.url }}"> {{ top_views.title }} <strong>[{{ top_views.views }}]</strong> </a></li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<strong>No Top Viewed Pages</strong>
+		{% endif %}
+	<br /><br />
+	</div>
+</div>	
+	
+	<p><strong>visits: {{ visits }}</strong></p>
+	<img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> 
+{% endblock %}
